@@ -8,7 +8,6 @@ import 'bulma/css/bulma.min.css';
 import React, { useState } from 'react';
 
 function TodoItem({item, onCheck}) {
-  // const [done] = useState();
   const handleChange = () => {
     onCheck({item});
   }
