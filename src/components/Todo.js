@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 
-/* 
-  【Todoのデータ構成】
-　・key：Todoを特定するID（String）
-　・text：Todoの内容（String）
-　・done：完了状態（Boolean true:完了済み,, false:未完了）
-*/
-
 /* コンポーネント */
 import TodoItem from './TodoItem';
 import Input from './Input';
 import Filter from './Filter';
 
 /* カスタムフック */
-import useStorage from '../hooks/storage';
+// import useStorage from '../hooks/storage';
+import useFbStorage from '../hooks/fbStorage';
 
 /* ライブラリ */
 import {getKey} from "../lib/util";
 
 function Todo() {
-      /* テストコード 開始 */
-  const [items, putItems, clearItems] = useStorage();
+  // const [items, putItems, clearItems] = useStorage();
+  const [items, addItem, updateItem, clearItems] = useFbStorage();
   
+  const [filter, setFilter] = React.useState('ALL');
+
   const displayItems = items.filter(item => {
     if (filter === 'ALL') return true;
     if (filter === 'TODO') return !item.done;
@@ -29,21 +25,21 @@ function Todo() {
   });
   
   const handleCheck = checked => {
-    const newItems = items.map(item => {
-      if (item.key === checked.key) {
-        item.done = !item.done;
-      }
-      return item;
-    });
-    putItems(newItems);
+    // const newItems = items.map(item => {
+    //   if (item.key === checked.key) {
+    //     item.done = !item.done;
+    //   }
+    //   return item;
+    // });
+    // putItems(newItems);
+    updateItem(checked);
   };
   
   const handleAdd = text => {
-    putItems([...items, {key: getKey(), text, done:false}]);
+    // putItems([...items, { key: getKey(), text, done: false }]);
+    addItem({ text, done: false });
   };
- const [filter, setFilter] = React.useState('ALL');
-
-
+  
   const handleFilterChange = value => setFilter(value);
 
   return (
