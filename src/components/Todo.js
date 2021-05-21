@@ -21,6 +21,13 @@ import {getKey} from "../lib/util";
 function Todo() {
       /* テストコード 開始 */
   const [items, putItems, clearItems] = useStorage();
+  
+  const displayItems = items.filter(item => {
+    if (filter === 'ALL') return true;
+    if (filter === 'TODO') return !item.done;
+    if (filter === 'DONE') return item.done;
+  });
+  
   const handleCheck = checked => {
     const newItems = items.map(item => {
       if (item.key === checked.key) {
@@ -36,17 +43,18 @@ function Todo() {
   };
  const [filter, setFilter] = React.useState('ALL');
 
-  const displayItems = items.filter(item => {
-    if (filter === 'ALL') return true;
-    if (filter === 'TODO') return !item.done;
-    if (filter === 'DONE') return item.done;
-  });
+
   const handleFilterChange = value => setFilter(value);
 
   return (
-    <div className="panel">
+    <article class="panel is-danger">
       <div className="panel-heading">
-        ITSS ToDoアプリ
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-calendar-check"></i>
+          </span>
+          <span> ITSS Todoアプリ</span>
+        </span>
       </div>
       <Input onAdd={handleAdd} />
       <Filter
@@ -54,21 +62,21 @@ function Todo() {
         value={filter}
       />
       {displayItems.map(item => (
-      <TodoItem
-          key={item.key}
+        <TodoItem 
+          key={item.id}
           item={item}
           onCheck={handleCheck}
-          />
-        ))}
+        />
+      ))}
       <div className="panel-block">
-        {displayItems.length} items      
-        </div>
-        <div className="panel-block">
+        {displayItems.length} items
+      </div>
+      <div className="panel-block">
         <button className="button is-light is-fullwidth" onClick={clearItems}>
           全てのToDoを削除
         </button>
       </div>
-    </div>
+    </article>
   );
 }
 

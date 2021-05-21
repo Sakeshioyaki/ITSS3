@@ -16,9 +16,9 @@ function useStorage() {
 　
 　/* 副作用を使う */
   useEffect(() => {
-       const data = localStorage.getItem(STORAGE_KEY);
-
-    if(!data){
+    const data = localStorage.getItem(STORAGE_KEY);
+    
+    if (!data) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     } else {
       setItems(JSON.parse(data));
@@ -33,6 +33,7 @@ function useStorage() {
   const clearItems = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     setItems([]);
+    
   };
 
   return [items, putItems, clearItems];
